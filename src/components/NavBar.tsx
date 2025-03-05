@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation"
 const NavBar = () => {
 
        const path = usePathname()
-        console.log(path)
   return (
     <nav className="w-full max-w-2xl mx-auto flex justify-between bg-[#ffffff]/40 backdrop-blur-md py-1 px-4 rounded-full items-center">
         <Link href="/" className="bg-gradient-to-b from-[#f588f9] via-[#9561e9] to-[#fff] text-transparent bg-clip-text text-2xl font-bold ">Todo</Link>

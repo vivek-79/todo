@@ -113,8 +113,9 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
     const saveChangedTodo =async()=>{
 
         const newtodos = localSubTodo.map((item)=>{
-            return item.title;
+            return {title:item.title,Completed:item.completed};
         })
+
         if (newtodos.length ==0) return;
         
                 setSaveLoading(true)
@@ -144,7 +145,7 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
                         
                         toast.success("Todo Edited successfully")
                         seteditable(false);
-                        setTimeout(()=>window.location.reload(),1000)
+                        window.location.reload()
                     }
                     else {
                         toast.error("Error while Editing try again")

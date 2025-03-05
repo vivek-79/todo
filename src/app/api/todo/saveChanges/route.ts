@@ -29,10 +29,10 @@ export async function POST(req: Request) {
         // Insert subtodos
         if (newTodo && todos.length > 0) {
             await db.insert(subtodoTable).values(
-                todos.map((task: string) => ({
+                todos.map((task:{title:string,Completed:boolean}) => ({
                     todoId: newTodo.id,
-                    title: task,
-                    completed: false,
+                    title: task.title,
+                    completed: task.Completed ,
                 }))
             );
         }
