@@ -39,7 +39,7 @@ export async function POST (req:Request){
         const allSubtodos = await db
         .select()
         .from(subtodoTable)
-        .where(eq(subtodoTable.todoId,subTodo.id))
+        .where(eq(subtodoTable.todoId,subTodo.todoId))
 
         const allCompleted = allSubtodos.every((t)=>t.completed || t.id == id && newCompletedState)
 

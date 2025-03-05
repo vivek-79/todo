@@ -1,7 +1,6 @@
 "use client"
 
 import { SelectSubtodo } from "@/schema"
-import { Progress } from "./ui/progress"
 import { Input } from "./ui/input"
 import { useState } from "react"
 import { toast } from 'sonner'
@@ -171,7 +170,12 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
                     <h2 className="text-sm">Completed</h2>
                     {path !== "/completed" && (
                         <div className="flex justify-between w-[50%] gap-2 items-center">
-                            <Progress className="bg-white/40 " value={progressValue} />
+                            <div className="w-full bg-gray-300 h-2 rounded-md overflow-hidden">
+                                <div
+                                    className="h-full bg-black transition-all duration-300 rounded-md"
+                                    style={{ width: `${progressValue}%` }}
+                                />
+                            </div>
                             <p>{Math.round(progressValue)}%</p>
                         </div>
                     )}
