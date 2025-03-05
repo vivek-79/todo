@@ -17,6 +17,8 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
     const [localSubTodo, setLocalSubTodo] = useState(subTodo);
     const [saveLoading, setSaveLoading] = useState(false);
 
+//completing sub-tasks
+
     const saveChanges = async (id: number) => {
 
         try {
@@ -106,6 +108,8 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
     const deleteSubTodo = (id:number)=>{
         setLocalSubTodo((prev)=> prev.filter((item)=>item.id !== id))
     }
+
+    //edit whole todo
     const saveChangedTodo =async()=>{
 
         const newtodos = localSubTodo.map((item)=>{
@@ -161,7 +165,7 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
         ? (completedCount / localSubTodo.length) * 100
         : 0;
 
-    if(progressValue >90 && path=== "/"){
+    if(progressValue >99 && path=== "/"){
         window.location.reload();
     }
     if (progressValue == 100 && path == "/") {
