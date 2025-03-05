@@ -19,10 +19,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ ok: false, message: "Invalid data" }, { status: 400 });
         }
 
-        //delete existing todo
-
-        await db.delete(todoTable).where(eq(todoTable.id,todoId))
-
         // Insert main todo
         const [newTodo] = await db.insert(todoTable).values({
             userId,
@@ -41,6 +37,10 @@ export async function POST(req: Request) {
             );
         }
 
+        //delete existing
+       if(newTodo){
+           await db.delete(todoTable).where(eq(todoTable.id, todoId))
+       }
         return NextResponse.json({ ok: true, message: "Todo saved successfully!" });
     } catch (error) {
         console.error("Error saving todo:", error);
