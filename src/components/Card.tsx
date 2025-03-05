@@ -140,6 +140,7 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
                         
                         toast.success("Todo Edited successfully")
                         seteditable(false);
+                        setTimeout(()=>window.location.reload,1000)
                     }
                     else {
                         toast.error("Error while Editing try again")
