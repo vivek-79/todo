@@ -1,6 +1,9 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
-import { WebhookEvent } from '@clerk/nextjs/server'
+import {  clerkClient, WebhookEvent } from '@clerk/nextjs/server'
+import { NextResponse } from 'next/server'
+import { db } from '@/lib/db'
+import { usersTable } from '@/schema'
 
 export async function POST(req: Request) {
     const SIGNING_SECRET = process.env.CLERK_WEBHOOK_SECRET
@@ -45,10 +48,32 @@ export async function POST(req: Request) {
         })
     }
 
-    // Do something with payload
-    // For this guide, log payload to console
+ //create user to db
     if (evt.type === 'user.created') {
-        console.log('userId:', evt.data.id)
+        console.log('userId:', evt.data.id);
+
+        const { id, email_addresses, image_url, first_name, last_name } = evt.data;
+        const user = {
+            clerkId: id,
+            email: email_addresses[0].email_address,
+            firstName: first_name,
+            lastName: last_name,
+            image: image_url
+        }
+
+        const insertedUser = await db.insert(usersTable).values(user).returning();
+
+        const newUser = insertedUser[0];
+        if(newUser){
+            const clerk = await clerkClient();
+            await clerk.users.updateUserMetadata(id, {
+                publicMetadata: {
+                    userId: newUser.id,
+                },
+            });
+        }
+
+        return NextResponse.json({message:"New user created",user:newUser})
     }
 
     return new Response('Webhook received', { status: 200 })
