@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { todoTable, subtodoTable } from "@/schema";
 import { currentUser } from "@clerk/nextjs/server";
+import { eq } from "drizzle-orm";
 
 import { NextResponse } from "next/server";
 
@@ -12,10 +13,15 @@ export async function POST(req: Request) {
 
         const body = await req.json();
 
-        const {title,todos} = body.value;
-        if (!title || !todos.length) {
+        const {title,todos,todoId} = body.value;
+
+        if (!title || !todos.length || !todoId) {
             return NextResponse.json({ ok: false, message: "Invalid data" }, { status: 400 });
         }
+
+        //delete existing todo
+
+        await db.delete(todoTable).where(eq(todoTable.id,todoId))
 
         // Insert main todo
         const [newTodo] = await db.insert(todoTable).values({

@@ -135,7 +135,7 @@ const NewTodo = () => {
                       <h3 className='text-sm text-black font-semibold'>Title : &quot;{content}&quot; or give a custom one</h3>
                         <div className='flex  justify-between gap-2'>
                             <Input onChange={(e)=>setCustomTitle(e.target.value)} value={customTitle} className='bg-gray-200 text-black'/>
-                            <Button onClick={save}>{saveLoading ? 'Saving ...':'Save'}</Button>
+                            <Button className='bg-black' onClick={save}>{saveLoading ? 'Saving ...':'Save'}</Button>
                         </div>
                     </div>
                 </div>
