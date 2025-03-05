@@ -39,8 +39,9 @@ const Card = ({todo,subTodo}:{todo:{id:number,title:string,completed:boolean},su
                 )
             )
             toast.success("Task Completed successfully")
-        } catch (error: any) {
-            toast.error("Error while saving changes")
+        } catch (error:any) {
+            
+            toast.error(error?.message)
         } finally {
             setLoading(false);
         }

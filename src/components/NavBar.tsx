@@ -1,7 +1,7 @@
 
 "use client"
 
-import { SignedIn, SignOutButton, UserButton } from "@clerk/nextjs"
+import { SignedIn, UserButton } from "@clerk/nextjs"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 

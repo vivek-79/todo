@@ -1,4 +1,4 @@
-import { SelectSubtodo, Selecttodo } from "@/schema"
+import { SelectSubtodo } from "@/schema"
 import Card from "./Card"
 
 export interface TodoWithSub{
