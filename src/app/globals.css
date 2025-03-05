@@ -116,6 +116,13 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+@layer utilities{
+
+  .nav{
+    @apply py-1 font-semibold px-2 relative after:absolute after:bottom-0 after:-z-10 after:w-full after:rounded-md after:bg-[#000]/40 after:left-0 after:right-0 hover:after:h-full transition-all hover:text-white after:transition-all
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

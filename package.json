@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.3",
+    "@google/generative-ai": "^0.23.0",
     "@neondatabase/serverless": "^0.10.4",
     "@ngrok/ngrok": "^1.4.1",
     "@radix-ui/react-progress": "^1.1.2",
@@ -23,6 +24,8 @@
     "next": "15.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
+    "sonner": "^2.0.1",
     "svix": "^1.61.2",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7"

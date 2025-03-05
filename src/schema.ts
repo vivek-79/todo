@@ -1,4 +1,5 @@
-import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core';
+
+import { integer, pgTable, serial, text, timestamp , boolean} from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('users', {
     id: serial('id').primaryKey(),
@@ -11,7 +12,7 @@ export const usersTable = pgTable('users', {
 export const todoTable = pgTable('todos', {
     id: serial('id').primaryKey(),
     title: text('title').notNull(),
-    content: text('content').notNull(),
+    completed:boolean('completed').notNull().default(false),
     userId: integer('user_id')
         .notNull()
         .references(() => usersTable.id, { onDelete: 'cascade' }),
@@ -21,8 +22,20 @@ export const todoTable = pgTable('todos', {
         .$onUpdate(() => new Date()),
 });
 
+export const subtodoTable = pgTable("subtodos", {
+    id: serial("id").primaryKey(),
+    title: text("title").notNull(),
+    completed: boolean("completed").notNull().default(false),
+    todoId: integer("todo_id")
+        .notNull()
+        .references(() => todoTable.id, { onDelete: "cascade" }),
+});
+
 export type InsertUser = typeof usersTable.$inferInsert;
 export type SelectUser = typeof usersTable.$inferSelect;
 
-export type InsertPost = typeof todoTable.$inferInsert;
-export type SelectPost = typeof todoTable.$inferSelect;
+export type Inserttodo = typeof todoTable.$inferInsert;
+export type Selecttodo = typeof todoTable.$inferSelect;
+
+export type InsertSubtodo = typeof subtodoTable.$inferInsert;
+export type SelectSubtodo = typeof subtodoTable.$inferSelect;

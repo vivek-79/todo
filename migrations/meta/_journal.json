@@ -8,6 +8,27 @@
       "when": 1741161558573,
       "tag": "0000_charming_master_chief",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1741166779101,
+      "tag": "0001_optimal_scarecrow",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741167770502,
+      "tag": "0002_dry_menace",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1741177635435,
+      "tag": "0003_faithful_psynapse",
+      "breakpoints": true
     }
   ]
 }

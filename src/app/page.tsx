@@ -1,77 +1,57 @@
 
+import NavBar from "@/components/NavBar";
+import { db } from "@/lib/db";
+import { subtodoTable, todoTable } from "@/schema";
+import { currentUser } from "@clerk/nextjs/server";
+import { and, eq } from "drizzle-orm";
+import DisplayTodos from "@/components/DisplayTodos";
+import Image from "next/image";
 
-"use client"
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+export default async function TaskManager () {
 
-export default function TaskManager() {
-  const [tasks, setTasks] = useState([
-    { id: 1, text: "Example task", completed: false },
-  ]);
-  const [topic, setTopic] = useState("");
+  const user = await currentUser();
+  const userId = user?.publicMetadata.userId as number
 
-  const generateTasks = async () => {
-    // Placeholder for Google Gemini API call
-    const newTasks = [
-      "Learn Python basics",
-      "Write a simple script",
-      "Understand functions",
-      "Explore libraries",
-      "Build a project",
-    ].map((text, i) => ({ id: i + 1, text, completed: false }));
-    setTasks(newTasks);
-  };
+  const tasks = await db
+    .select({
+      todo:todoTable,
+      subTodo:subtodoTable,
+    })
+    .from(todoTable)
+    .leftJoin(subtodoTable,eq(todoTable.id,subtodoTable.todoId))
+    .where(and(eq(todoTable.userId,userId),eq(todoTable.completed,false)))
 
-  const toggleTask = (id:number) => {
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
 
-  const deleteTask = (id:number) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
-  };
+  const groupedTasks = new Map();
 
+  tasks.forEach(({ todo, subTodo }) => {
+    if (!groupedTasks.has(todo.id)) {
+      groupedTasks.set(todo.id, { ...todo, subTodos: [] });
+    }
+    if (subTodo) {
+      groupedTasks.get(todo.id).subTodos.push(subTodo);
+    }
+  });
+
+  const result = Array.from(groupedTasks.values());
   return (
-    <div className="max-w-xl mx-auto p-6 space-y-4">
-      <h1 className="text-2xl font-bold">Task Manager</h1>
-      <div className="flex space-x-2">
-        <Input value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="Enter topic..." />
-        <Button onClick={generateTasks}>Generate</Button>
-      </div>
+    <div className="max-w-3xl w-full mx-auto p-6 space-y-4  min-h-[100dvh] text-white">
+      <NavBar/>
+      <h1 className="text-2xl font-bold">All Todos</h1>
+      <Image width={700} height={700} src="/main-bg.webp" alt="back-groung" className="-z-20 fixed top-0 left-0 object-center object-cover w-full h-full"/>
+      <div className="fixed -z-10 bg-[#000]/40 backdrop-blur-md top-0 left-0 w-full h-full"></div>
+     
+      {/*ProgressBar*/}
 
-      <div className="space-y-2">
-        {tasks.map((task) => (
-          <motion.div
-            key={task.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-          >
-            <Card>
-              <CardContent className="p-4 flex justify-between items-center">
-                <span className={task.completed ? "line-through text-gray-500" : ""}>{task.text}</span>
-                <div className="space-x-2">
-                  <Button size="sm" variant="outline" onClick={() => toggleTask(task.id)}>
-                    {task.completed ? "Undo" : "Done"}
-                  </Button>
-                  <Button size="sm" variant="destructive" onClick={() => deleteTask(task.id)}>
-                    Delete
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
-
-      <Progress value={(tasks.filter((t) => t.completed).length / tasks.length) * 100} />
+      { result.length ? (
+        <DisplayTodos tasks={result} />
+      ):(
+        <div className="w-full flex flex-col items-center">
+            <Image src="/Empty.png" width={300} height={300} alt="Empty Image" />
+            <h3 className="text-sm font-semibold">No Todos here Add One Now By Clicking New</h3>
+        </div>
+      )
+      }
     </div>
   );
 }
