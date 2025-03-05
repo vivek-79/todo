@@ -198,11 +198,11 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
                 </div>
             )}
 
-            <div className="flex justify-between mt-1">
+            <div className="flex w-full justify-between mt-1 gap-2">
                 { path !== '/completed' && (
-                    <Button onClick={() => { seteditable(true) }} className="bg-green-300">Edit</Button>
+                    <Button onClick={() => { seteditable(true) }} className="bg-green-300 flex-1">Edit</Button>
                 )}
-                <Button onClick={()=>deleteTodo(todo.id)} className="bg-red-300">Delete</Button>
+                <Button onClick={()=>deleteTodo(todo.id)} className="bg-red-300 flex-1 ">Delete</Button>
             </div>
 
             {editable && (
