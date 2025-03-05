@@ -163,7 +163,7 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
     }
     return (
 
-        <div className="mt-2 w-full hover:bg-[#000]/20 backdrop-blur-md border-[1px] hover:border-[#000]/60 py-1 px-2 rounded-md bg-[#fff]/40 text-black hover:text-white border-[#fff]/40 transition-all duration-500 ">
+        <div className="mt-2 w-full hover:bg-[#000]/20 backdrop-blur-md border-[1px] hover:border-[#000]/60 py-1 px-2 rounded-md bg-[#fff]/40 text-black hover:text-white border-[#fff]/40 transition-all duration-500 flex flex-col justify-between ">
 
             <div className="w-full bg-pink-300/40 backdrop-blur-md py-1 px-1 rounded-md">
                 <div className="flex gap-2 items-center justify-between">
@@ -210,7 +210,7 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
             </div>
 
             {editable && (
-                <div className="fixed hover:text-black py-2 px-2 left-0 top-0  w-full  bg-[#fff] backdrop-blur-md flex flex-col gap-1">
+                <div className="fixed hover:text-black py-2 px-2 left-0 top-0  w-full min-h-full  bg-[#fff] backdrop-blur-md flex flex-col gap-1">
                     <div className="w-full flex justify-between">
                         <p className="font-semibold">Title</p>
                         <p className="capitalize font-semibold">{todo?.title}</p>
