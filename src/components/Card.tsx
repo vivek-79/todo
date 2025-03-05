@@ -49,6 +49,7 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
                 toast.error("An unexpected error occurred");
             }
         } finally {
+            
             setLoading(false);
         }
     }
@@ -136,6 +137,7 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
                     const result = await response.json()
         
                     if(result.ok){
+                        
                         toast.success("Todo Edited successfully")
                         seteditable(false);
                     }
@@ -158,7 +160,11 @@ const Card = ({ todo, subTodo }: { todo: { id: number, title: string, completed:
         ? (completedCount / localSubTodo.length) * 100
         : 0;
 
+    if(progressValue >90 && path=== "/"){
+        window.location.reload();
+    }
     if (progressValue == 100 && path == "/") {
+        
         return null;
     }
     return (
