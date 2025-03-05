@@ -93,8 +93,12 @@ const NewTodo = () => {
             else {
                 toast.error("Error while fetching try again")
             }
-        } catch (error:any) {
-            toast.error(error.message)
+        } catch (error:unknown) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error("An unexpected error occurred");
+            }
         } finally {
             setSaveLoading(false);
         }
